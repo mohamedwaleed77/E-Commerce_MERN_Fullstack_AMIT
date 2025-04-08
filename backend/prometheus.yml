@@ -1,0 +1,17 @@
+# prometheus.yml
+global:
+  scrape_interval: 15s  # Default scrape interval for all targets
+
+scrape_configs:
+  # cAdvisor for container metrics
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  # MongoDB metrics (you might need to expose MongoDB metrics using a Prometheus exporter)
+ 
+
+  # Prometheus metrics itself (scraping Prometheus server's own metrics)
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['prometheus:9090']

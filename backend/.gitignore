@@ -1,0 +1,9 @@
+# Ignore environment variables
+.env
+
+# Ignore MongoDB data folder
+mongodata/
+mongodb_data/
+
+# Ignore uploads
+uploads/

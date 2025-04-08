@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # User Service
+  userService:
+    build: ./userService
+    container_name: user-service
+    image: user-service
+    env_file:
+      - .env
+    ports:
+      - "3004:3004"
+    networks:
+      - monitor_network
+    restart: always
+  # Product Service
+  productService:
+    build: ./productService
+    container_name: product-service
+    image: product-service
+    env_file:
+      - .env
+    ports:
+      - "3003:3003"
+    networks:
+      - monitor_network
+    volumes:
+      - ./uploads:/usr/src/app/uploads
+    restart: always
+  # Order Service
+  orderService:
+    build: ./orderService
+    container_name: order-service
+    image: order-service
+    env_file:
+      - .env
+    ports:
+      - "3002:3002"
+    networks:
+      - monitor_network
+    restart: always
+  # Cart Service
+  CartService:
+    build: ./cartService
+    container_name: cart-service
+    image: cart-service
+    env_file:
+      - .env
+    ports:
+      - "3001:3001"
+    networks:
+      - monitor_network
+    restart: always
+
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    command: [--bind_ip_all]
+    volumes:
+      - ./mongodata:/data/db
+    networks:
+      - monitor_network
+    ports:
+      - "27017:27017"
+    restart: always
+  # Prometheus Service
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitor_network
+    restart: always
+  # Grafana Service
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+    ports:
+      - "3000:3000"
+    networks:
+      - monitor_network
+    depends_on:
+      - prometheus
+    restart: always
+  # cAdvisor Service
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - monitor_network
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    restart: always
+
+networks:
+  monitor_network:
+    driver: bridge

@@ -1,0 +1,24 @@
+need to be fixed:
+
+===============================
+
+
+1-Pagination in user service:
+Pagination works but it's done poorly:
+    let filter={"_id":id,name}
+    if (!name)filter={"_id":id}
+    if(!id)filter={name}
+    if (!name && !id)filter={}
+too many if statemnt just to allow searching with 2 queires .. there's gotta be a better way to do this.
+
+STATUS: NOT FIXED YET 
+
+===============================
+
+2- post & delete in cart service:
+i've made Cart APIs either decrease items or Increase them by "1"
+That is too slow approach it needs to be fixed
+
+STATUS: NOT FIXED YET 
+
+===============================
