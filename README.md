@@ -46,6 +46,9 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 - Passwords encrypted with bcrypt.
 - CSRF protection via headers and tokens.
 
+### 🤏 Microservices Architecture (YES I couldn't find better emoji)
+- Each service is Isolated in a docker container.
+- If a service failed it will be restarted.
  
 ### 📊 Monitoring metrics Using Promethues | Grafana | cAdvisor
 ![alt text](backend/metrics.png)
