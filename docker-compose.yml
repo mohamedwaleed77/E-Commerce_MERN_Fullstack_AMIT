@@ -3,11 +3,11 @@ version: '3.8'
 services:
   # User Service
   userService:
-    build: ./userService
+    build: ./backend/userService
     container_name: user-service
     image: user-service
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - "3004:3004"
     networks:
@@ -15,25 +15,25 @@ services:
     restart: always
   # Product Service
   productService:
-    build: ./productService
+    build: ./backend/productService
     container_name: product-service
     image: product-service
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - "3003:3003"
     networks:
       - monitor_network
     volumes:
-      - ./uploads:/usr/src/app/uploads
+      - ./backend/uploads:/usr/src/app/uploads
     restart: always
   # Order Service
   orderService:
-    build: ./orderService
+    build: ./backend/orderService
     container_name: order-service
     image: order-service
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - "3002:3002"
     networks:
@@ -41,11 +41,11 @@ services:
     restart: always
   # Cart Service
   CartService:
-    build: ./cartService
+    build: ./backend/cartService
     container_name: cart-service
     image: cart-service
     env_file:
-      - .env
+      - ./backend/.env
     ports:
       - "3001:3001"
     networks:
@@ -57,7 +57,7 @@ services:
     image: mongo:latest
     command: [--bind_ip_all]
     volumes:
-      - ./mongodata:/data/db
+      - ./backend/mongodata:/data/db
     networks:
       - monitor_network
     ports:
@@ -67,7 +67,7 @@ services:
   prometheus:
     image: prom/prometheus:latest
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./backend/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:

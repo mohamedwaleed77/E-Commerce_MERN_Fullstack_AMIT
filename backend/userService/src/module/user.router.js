@@ -12,7 +12,7 @@ const userRouter=Router();
 userRouter.get("/",isTokenExpired,isAdmin,getAllUsers)
 userRouter.post("/signup",validateCredintials(signupValidation),doesEmailExist ,addUser)
 userRouter.post("/signin",validateCredintials(loginValidation),login)
-userRouter.get("/verify/:token",isTokenExpired,verifyEmail)
+userRouter.get("/verify/:token",verifyEmail)
 userRouter.delete("/:id",isTokenExpired,isAdmin,deleteUser)
 userRouter.put("/",isTokenExpired,updateUser)
 
