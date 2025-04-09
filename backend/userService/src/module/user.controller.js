@@ -36,18 +36,18 @@ export const login=erroHandler(async(req,res)=>{
     let {email,password}=req.body
     let user=await userModel.findOne({email})
     if (!user || !bcrypt.compareSync(password,user.password)){
-        return res.json("wrong credintials")
+        return res.status(500).json({msg:"wrong credintials"})
     }
     
     let token=jwt.sign({user},secret_key)
-    return res.json({msg:"login success!",token})
+    return res.json({msg:"login success!",name:user.name,token,role:user.role})
 })
 
 export const verifyEmail=erroHandler(async(req,res)=>{
      let {token}=req.params
      jwt.verify(token,secret_key,async(err,decoded)=>{
  
-        if(err)return res.json({msg:"invalid token",token })
+        if(err)return res.status(500).json({msg:"invalid token",token })
         let user= await userModel.findOneAndUpdate({email:decoded.reciever},{emailConfirmed:true},{new:true})
         
         
