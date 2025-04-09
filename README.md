@@ -6,7 +6,7 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 
 ## 🚀 Features
 
-### ✅ Supports Arabic | English Languages
+### 🌟 Supports Arabic | English Languages
 - Using I18next library to translate 
 - State of language is passed to all components using redux
 
@@ -36,10 +36,6 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 - Admins can add, edit, and delete products.
 - Track product stock and manage inventory.
 - Manage user accounts (e.g., delete users).
-
-### 🌟 Reviews and Ratings
-- Users can leave reviews and rate products.
-- Product pages display average ratings from all users.
 
 ### 📱 Responsive Design
 - Mobile-friendly interface using Bootstrap or Material-UI.
