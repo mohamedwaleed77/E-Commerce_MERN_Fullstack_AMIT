@@ -1,7 +1,8 @@
 import i18n from 'i18next';
-
+import { useDispatch,useSelector } from 'react-redux'
+import { ar,en } from '../features/languageSlice/languageSlice';
 // Client-side only function to set document direction and lang attribute
-const setDocumentDirection = (lng) => {
+export const setDocumentDirection = (lng) => {
   // Only run in browser environment
   if (typeof document !== 'undefined') {
     document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
@@ -29,12 +30,24 @@ const initializeI18n = () => {
           translation: {
             greeting: 'أهلاً {{username}}!',
             cart: "السلة",
+            users:"المستخدمين",
+            products:"المنتجات",
+            carts:"السلات",
+            orders:"الطلبات",
+            admindashboard:"لوحة التحكم"
+
           }
         },
         en: {
           translation: {
             greeting: 'Hello {{username}}!',
-            cart:"cart"
+            cart:"cart",
+            users:"users",
+            products:"products",
+            carts:"carts",
+            orders:"orders",
+            admindashboard:"Admin Dashboard"
+
           }
         }
       }
@@ -47,9 +60,7 @@ const initializeI18n = () => {
 };
 
 // Listen for language changes
-i18n.on('languageChanged', (lng) => {
-  setDocumentDirection(lng);
-});
+
 
 // Export both the i18n instance and initialization function
 export { i18n, initializeI18n };

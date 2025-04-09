@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from '../features/counter/CounterSlice'
-import tokenReducer from '../features/token/tokenSlice'
+import languageReducer from '../features/languageSlice/languageSlice'
 export const store = configureStore({
     reducer: {
-      counter: counterReducer,
-      token:tokenReducer, 
+      toggle:languageReducer
+     
     },
   })

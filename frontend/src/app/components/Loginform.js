@@ -137,7 +137,7 @@ export default function LoginForm() {
               className="w-full p-2 border rounded-lg"
             />
           </div>
-          <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg">Login</button>
+          <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg cursor-pointer">Login</button>
         </form>
         {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
       </div>

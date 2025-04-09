@@ -6,6 +6,10 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 
 ## 🚀 Features
 
+### ✅ Supports Arabic | English Languages
+- Using I18next library to translate 
+- State of language is passed to all components using redux
+
 ### ✅ User Authentication & Authorization
 - JWT-based user authentication.
 - Role-based access for Admin and regular users.

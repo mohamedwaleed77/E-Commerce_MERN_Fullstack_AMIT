@@ -2,9 +2,10 @@
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import LoginForm from "./components/Loginform";
-import React, { useState ,useEffect} from 'react';
-import Admindashbord from "./components/Admindashbord";
+import React, { useState ,useEffect, lazy} from 'react';
+ 
 
+const Admindashbord = lazy(() => import('./components/Admindashbord'));
 export default function Home() {
   const [role,setAdmin]=useState('user')
   useEffect(()=>{

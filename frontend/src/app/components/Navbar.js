@@ -2,18 +2,20 @@
 
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux'
- 
+import { useDispatch,useSelector } from 'react-redux'
+
 import { useTranslation } from 'react-i18next';
-import i18n from "../../../lib/lang";
+import i18n, { setDocumentDirection } from "../../../lib/lang";
 import { initializeI18n } from "../../../lib/lang";
+import { toggle } from '../../../features/languageSlice/languageSlice';
 export default function Navbar() {
+
+  const dispatch=useDispatch()
   const {t} = useTranslation()
-  const languages=['ar','en']
-  const [toggled,setToggled]=useState(false);
+  const toggled = useSelector((state) => state.toggle.value);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
-  const dispatch=useDispatch()
+  
   // Check if the user is logged in on component mount
   useEffect(() => {
     initializeI18n();
@@ -25,7 +27,9 @@ export default function Navbar() {
       setUsername(storedUsername);
     }
   }, []);
-
+  i18n.on('languageChanged', (lng) => {
+    setDocumentDirection(lng);
+  });
   // Handle logout functionality
   const handleLogout = () => {
     localStorage.removeItem('isLoggedIn');
@@ -35,10 +39,8 @@ export default function Navbar() {
     window.location.reload();
   };
   const changeLanguage = ()=>{
-   setToggled(!toggled)
-   if (!toggled)i18n.changeLanguage('ar');
-   else i18n.changeLanguage('en');
- 
+    dispatch(toggle());
+    i18n.changeLanguage(!toggled ? 'ar' : 'en');
   }
 
 
