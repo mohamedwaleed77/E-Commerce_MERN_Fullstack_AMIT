@@ -4,3 +4,14 @@
   --breakpoint-big: 612px;
 
 }
+
+.direction-ltr {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.direction-rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+ 

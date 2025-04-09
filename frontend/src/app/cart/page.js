@@ -3,14 +3,12 @@
 import { useState,useEffect } from "react";
 import Cookies from "js-cookie";
 
+
 export default function Cart() {
   const [cartItems,setCart]=useState([])
   const [empty,setempty]=useState(false)
   const [msg,setMsg]=useState("")
-  if (!Cookies.get("token")){
-    localStorage.setItem("isLoggedIn",false)
-    window.location.reload();
-  }
+
   fetch('http://localhost:3001/', {
         method: 'GET',
         headers: {
@@ -31,7 +29,12 @@ export default function Cart() {
 
   return (
     <div className="flex flex-col gap-10 justify-center items-center h-screen">
-        {msg  && (<p className="text-2xl">{msg}</p>) }
+        {msg  && (
+          <div className="flex flex-col justify-center items-center gap-10">
+            <img src="empty_cart.png"/> 
+            <p className="text-2xl">{msg}</p>
+          </div>
+          ) }
    </div>
   )
 }

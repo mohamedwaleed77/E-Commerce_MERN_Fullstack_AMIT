@@ -29,7 +29,10 @@ export default function LoginForm() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from reloading the page
-
+    if (!Cookies.get("token")){
+      localStorage.setItem("isLoggedIn",false)
+      window.location.reload();
+    }
     // Make the POST request to the backend (/signin)
     try {
       const response = await fetch('http://localhost:3004/signin', {
