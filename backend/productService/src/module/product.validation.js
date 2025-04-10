@@ -11,6 +11,9 @@ export const product_validation=joi.object({
     .max(30)     
     .required()  ,
 
+    quantity: joi.number()
+    .required() ,
+    
     price: joi.number()
     .required() ,
 })

@@ -9,23 +9,29 @@ import exp from "constants";
 
 export const getAll=erroHandler(async(req,res)=>{
     let page=req.query.page *1 || 1
-
-    let filter=req.query.category
+    let filter;
+    if (!req.query.category) filter={}
+    else{filter={category:req.query.category} }
     let limit=20
     const skip = (parseInt(page-1))*limit
 
-    let mogoQuery= await productModel.find({category:filter}).skip(skip).limit(limit)
+    let mogoQuery= await productModel.find(filter).skip(skip).limit(limit)
     return res.status(200).json({message:"all products","products":mogoQuery,page,skip,limit})
 })
-
+export const getProduct=erroHandler(async(req,res)=>{
+    const {id}=req.params
+    const item=await productModel.findById({_id:id})
+    if (item)return res.json({item})
+    return res.status(404).json({error:"not found"})
+})
 export const addProduct=erroHandler(async(req,res)=>{
     let product=req.body
     let isExist=await productModel.findOne({name:product.name})
     if (isExist){
         return res.json({msg:"product with same name exists"})
     }
-    await productModel.insertMany(product)
-    return res.status(200).json({msg:"added product successfully",product})
+    const insertedProduct = await productModel.create(product);
+    return res.status(200).json({msg:"added product successfully",_id:insertedProduct._id})
 })
 
 export const manuallyChangeQuantity=erroHandler( async(req,res)=>{

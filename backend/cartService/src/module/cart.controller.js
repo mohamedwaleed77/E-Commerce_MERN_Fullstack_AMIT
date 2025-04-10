@@ -5,19 +5,31 @@ import { erroHandler } from "../middlewares/errorHandler.js";
 import jwt from "jsonwebtoken"
 import { productModel } from "../../database/product.model.js";
 export const getCart = erroHandler(async (req, res) => {
-    const { token } = req.headers;
-    let decoded;
-    try {
+  const { token } = req.headers;
+  let decoded;
+  
+  try {
       decoded = jwt.verify(token, secret_key);
-    } catch (err) {
+  } catch (err) {
       return res.status(400).json({ err });
-    }
-    const userId = decoded.user._id;
-    const cart = await cartModel.findOne({ owner: userId });
-    if (cart && cart.items && cart.items.length > 0) return res.json({ cart: cart });
-    return res.status(404).json({msg:"cart is empty"})
+  }
+  
+  const userId = decoded.user._id;
 
-})
+  const cart = await cartModel.findOne({ owner: userId })
+      .populate({
+          path: 'items.product',  // Populate the 'product' field within the 'items' array
+          select: 'name'          // Only select the 'name' field from the 'Product' model
+      });
+
+  if (cart && cart.items && cart.items.length > 0) {
+      return res.json({ cart: cart });
+  }
+
+  return res.status(404).json({ msg: "Cart is empty" });
+});
+
+
 export const addItem = erroHandler(async (req, res) => {
     const { item } = req.params;
     const { token } = req.headers;

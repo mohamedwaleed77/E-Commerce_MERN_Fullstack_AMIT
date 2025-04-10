@@ -44,10 +44,20 @@ export const createOrder=erroHandler(async(req,res)=>{
 
       }).catch((err)=>{console.log(err)});
  
- 
- 
-    cart.items=[]
-    await cart.save()
+
 
     return res.json({msg:"done",totalPrice,session})
+})
+
+export const success= erroHandler(async (req,res)=>{
+  let {token}=req.headers
+  let user=jwt.verify(token,secret_key)
+  let cart=await cartModel.find({owner:user.user._id})
+  cart=cart[0]
+  cart.items=[]
+    return res.json({msg:"payment is done| تمت العملية"})
+    await cart.save()
+})
+export const cancel= erroHandler(async (req,res)=>{
+  return res.status(400).json({msg:"payment failed| فشلت العملية"})
 })

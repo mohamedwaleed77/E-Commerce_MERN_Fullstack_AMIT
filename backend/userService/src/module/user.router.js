@@ -14,6 +14,6 @@ userRouter.post("/signup",validateCredintials(signupValidation),doesEmailExist ,
 userRouter.post("/signin",validateCredintials(loginValidation),login)
 userRouter.get("/verify/:token",verifyEmail)
 userRouter.delete("/:id",isTokenExpired,isAdmin,deleteUser)
-userRouter.put("/",isTokenExpired,updateUser)
+userRouter.put("/:id",isTokenExpired,updateUser)
 
 export default userRouter;

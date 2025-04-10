@@ -4,7 +4,7 @@ export const doesEmailExist= async(req,res,next)=>{
     let user=await userModel.findOne({email})
     console.log(user)
     if (user){
-        return res.json({msg:"email already exists"})
+        return res.status(400).json({msg:"email already exists"})
     }
     else{
     next();

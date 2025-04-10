@@ -3,7 +3,7 @@ import { isAdmin } from "../middlewares/isAdmin.js";
 import { isTokenExpired } from "../middlewares/isTokenExpired.js";
 import { validateCredintials } from "../middlewares/validate.js";
 import { image_validation, product_validation } from "./product.validation.js";
-import { addProduct, attachImage, deleteProduct, getAll, showImage, updateProduct } from "./product.controller.js";
+import { addProduct, attachImage, deleteProduct, getAll, getProduct, showImage, updateProduct } from "./product.controller.js";
 import multer from "multer";
 import path from "path"
  
@@ -21,10 +21,11 @@ export const storage = multer.diskStorage({
 export const upload = multer({ storage: storage })
  
 const producRouter=Router();
-producRouter.get("/",isTokenExpired,isAdmin,getAll)
+producRouter.get("/",isTokenExpired,getAll)
+producRouter.get("/:id",isTokenExpired,getProduct)
 producRouter.post("/",isTokenExpired,isAdmin,validateCredintials(product_validation),addProduct)
 producRouter.post('/uploadImage/:productId',isTokenExpired,isAdmin,validateCredintials(image_validation),upload.single("image"),attachImage)
 producRouter.get("/uploads/:filename",showImage)
-producRouter.delete("/:id",deleteProduct)
-producRouter.put("/:id",updateProduct)
+producRouter.delete("/:id",isTokenExpired,isAdmin,deleteProduct)
+producRouter.put("/:id",isTokenExpired,isAdmin,updateProduct)
 export default producRouter;

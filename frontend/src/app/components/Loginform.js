@@ -1,87 +1,87 @@
 'use client'; 
- 
-import React, { useState ,useEffect} from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginForm() {
-  // State to store email, password, login status, and username
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);  // Track login status
-  const [username, setUsername] = useState('');  // Store the username
-  const [role,setRole]=useState('');
-  const [errorMessage, setErrorMessage] = useState('');  // Track error message
-  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);  // Show welcome message
-  const [loading, setLoading] = useState(true);  // Track loading state for checking login
- 
-  // Check localStorage when the component mounts
+  const [name, setName] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [role, setRole] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false); // New state
+
   useEffect(() => {
+    
     const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const storedUsername = localStorage.getItem('username');
-    
     if (storedIsLoggedIn && storedUsername) {
       setIsLoggedIn(true);
       setUsername(storedUsername);
     }
-    setLoading(false);  // Set loading to false after the check
+    setLoading(false);
   }, []);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the form from reloading the page
-    if (!Cookies.get("token")){
-      localStorage.setItem("isLoggedIn",false)
+    e.preventDefault();
+    if (!Cookies.get("token")) {
+      localStorage.setItem("isLoggedIn", false);
       window.location.reload();
     }
-    // Make the POST request to the backend (/signin)
+
+    const endpoint = isRegistering ? 'http://localhost:3004/signup' : 'http://localhost:3004/signin';
+    const payload = isRegistering 
+      ? { name, email, password } 
+      : { email, password };
+
     try {
-      const response = await fetch('http://localhost:3004/signin', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+        body: JSON.stringify(payload),
       });
 
+      const data = await response.json();
+      console.log(data)
       if (response.ok) {
-        const data = await response.json();
-        setIsLoggedIn(true);  // Set login state to true
-        setRole(data.role)
-        setUsername(data.name); // Assuming response contains username
 
-        
-        //save token here
-        Cookies.set("token",data.token,{expires:1});
-        console.log("cookie saved")
-      
+        if (!data.token) {
+          setShowWelcomeMessage(true);
+          setTimeout(() => {
+            setShowWelcomeMessage(false);
+            setIsRegistering(false); // Switch to login view
+            setErrorMessage("Registration successful! Please log in.");
+          }, 1500);
+          return;
+        }
+        Cookies.set("token", data.token, { expires: 1 });
 
-        // Store the login state and username in localStorage
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('username', data.name);
-        localStorage.setItem('role', data.role);
+        localStorage.setItem('username', data.name || name);
+        localStorage.setItem('role', data.role || 'user');
 
-        setShowWelcomeMessage(true); // Show the welcome message
-
-        // Hide the welcome message after 1 sec
+        setShowWelcomeMessage(true);
         setTimeout(() => {
           setShowWelcomeMessage(false);
           window.location.reload();
         }, 1000);
       } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || 'Login failed'); // Show error message from the server
+        setErrorMessage(data.error||data.msg||data.message || 'Authentication failed');
       }
     } catch (error) {
-      console.error('Error during fetch:', error);
+      console.error('Error:', error);
       setErrorMessage('Network error, please try again later.');
     }
   };
 
-  // Show loading spinner until the check is done
   if (loading) {
     return (
       <div className='fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50'>
@@ -93,7 +93,6 @@ export default function LoginForm() {
     );
   }
 
-  // If logged in, show the welcome message
   if (isLoggedIn) {
     return (
       <div className="relative">
@@ -111,8 +110,22 @@ export default function LoginForm() {
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-100 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
-        <h2 className="text-2xl mb-4">Login</h2>
+        <h2 className="text-2xl mb-4">{isRegistering ? 'Register' : 'Login'}</h2>
         <form onSubmit={handleSubmit}>
+          {isRegistering && (
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-left mb-1">Name:</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="Enter your name"
+                className="w-full p-2 border rounded-lg"
+              />
+            </div>
+          )}
           <div className="mb-4">
             <label htmlFor="email" className="block text-left mb-1">Email:</label>
             <input
@@ -137,9 +150,23 @@ export default function LoginForm() {
               className="w-full p-2 border rounded-lg"
             />
           </div>
-          <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg cursor-pointer">Login</button>
+          <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg cursor-pointer">
+            {isRegistering ? 'Register' : 'Login'}
+          </button>
         </form>
         {errorMessage && <p className="text-red-500 text-sm mt-2">{errorMessage}</p>}
+        <p className="text-sm mt-4">
+          {isRegistering ? "Already have an account?" : "Don't have an account?"}{' '}
+          <button
+            onClick={() => {
+              setIsRegistering(!isRegistering);
+              setErrorMessage('');
+            }}
+            className="text-blue-500 underline cursor-pointer"
+          >
+            {isRegistering ? 'Login' : 'Register'}
+          </button>
+        </p>
       </div>
     </div>
   );

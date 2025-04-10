@@ -2,15 +2,18 @@
 import React, { lazy, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import i18n from '../../lib/lang';
+import i18n from '../../../lib/lang';
 import Cookies from 'js-cookie';
  
-const Productcard = lazy(() => import('./components/productcard'));
-const Admindashbord= lazy(()=> import("./components/Admindashbord"))
+const Productcard = lazy(() => import('./productsconfigComponents/productcard'));
+ 
+import Notfound from '../not-found';
 
 export default function Page() {
   
-  const [isAdmin,setIsAdmin]=useState(false)
+  if (localStorage.getItem('role')!="admin"){
+    return(<Notfound></Notfound>)
+  }
   const t = useTranslation();
   const toggleLanguage = useSelector((state) => state.toggle.value);
   const [products, setProducts] = useState([]);
@@ -65,7 +68,6 @@ export default function Page() {
   };
 
   useEffect(() => {
- 
     let filtered = products.filter(product => {
       const nameMatches = product.name?.toLowerCase().includes(searchQuery.toLowerCase());
       const idMatches = product._id?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -154,8 +156,44 @@ export default function Page() {
 
   return (
     <div className='flex flex-col items-center justify-center bg-blue-400 h-full'>
-      {localStorage.getItem('role')=="admin"?<Admindashbord/>:<></>}
- 
+      <div className="flex items-center justify-center">
+        <button
+          onClick={() => {
+            setShowAddProduct(!showAddProduct);
+            if (!showAddProduct) scrollToAddForm();
+          }}
+          className="mt-5 px-4 py-2 bg-green-500 text-white rounded-full cursor-pointer"
+        >
+          + {i18n.t('AddProduct')}
+        </button>
+      </div>
+
+      {showAddProduct && (
+        <div id="addProductForm" className="mt-5 p-5 bg-white rounded-lg shadow-lg">
+          <h3 className="text-xl mb-3">{i18n.t('AddProduct')}</h3>
+          <input type="text" placeholder="Name" className="mb-3 p-2 w-full border rounded"
+            value={nameInput} onChange={(e) => setNameInput(e.target.value)} />
+          <input type="text" placeholder="Category" className="mb-3 p-2 w-full border rounded"
+            value={categoryInput} onChange={(e) => setCategoryInput(e.target.value)} />
+          <input type="number" placeholder="Price" className="mb-3 p-2 w-full border rounded"
+            value={priceInput} onChange={(e) => setPriceInput(e.target.value)} />
+          <input type="number" placeholder="Quantity" className="mb-3 p-2 w-full border rounded"
+            value={quantityInput} onChange={(e) => setQuantityInput(e.target.value)} />
+          <input type="file" accept="image/*" className="mb-3"
+            onChange={(e) => setImageFile(e.target.files[0])} />
+
+          <div className="flex gap-3 mt-4">
+            <button onClick={handleAddProduct} className="px-4 py-2 bg-blue-500 text-white rounded">
+              {i18n.t('AddProduct')}
+            </button>
+            <button onClick={() => setShowAddProduct(false)} className="px-4 py-2 bg-red-500 text-white rounded">
+              {i18n.t('Cancel')}
+            </button>
+          </div>
+          {errorMsg && <p className="text-red-500 ml-3 mt-2">{errorMsg}</p>}
+        </div>
+      )}
+
       <div className="flex flex-col items-center mt-10 w-full ">
         <input
           type="text"

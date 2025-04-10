@@ -13,7 +13,7 @@ export const isAdmin= async(req,res,next)=>{
 
     if (user.role=="user"){
  
-        return res.json({msg:"unothorized"})
+        return res.status(400).json({msg:"unothorized"})
     }
     next()
 }

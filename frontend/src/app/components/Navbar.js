@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import i18n, { setDocumentDirection } from "../../../lib/lang";
 import { initializeI18n } from "../../../lib/lang";
 import { toggle } from '../../../features/languageSlice/languageSlice';
+import Cookies from 'js-cookie';
 export default function Navbar() {
 
   const dispatch=useDispatch()
@@ -35,6 +36,7 @@ export default function Navbar() {
     localStorage.removeItem('username');
     setIsLoggedIn(false);
     setUsername('');
+    Cookies.remove('token')
     window.location.reload();
   };
   const changeLanguage = ()=>{
@@ -44,7 +46,7 @@ export default function Navbar() {
 
 
   return (
-    <div className='top-0 lw-screen shadow-sm direction-ltr'>
+    <div className='top-0 lw-screen shadow-sm direction-ltr big:sticky'>
     <div className='w-full bg-slate-200 text-slate-500 gap-2 h-40 big:h-12 text-1xl big:text-md  flex items-center flex-col big:flex-row justify-between text-center overflow-hidden'>
       <Link href={"/"} className='flex items-center justify-center h-12 w-45 text-2xl   px-2 hover:border-b-2 border-red-400'>E-commerce</Link>
  

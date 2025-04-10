@@ -11,7 +11,7 @@ export const isEmailConfirmed= async(req,res,next)=>{
     })
 
     if (user.emailConfirmed==false){
-        return res.json({msg:"Confirm Email First"})
+        return res.status(400).json({msg:"Confirm Email First"})
     }
     next()
 }

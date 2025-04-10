@@ -1,3 +1,4 @@
+import Checkout from '@/app/cart/checkout';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next'; // ✅ Add this
  
@@ -32,11 +33,46 @@ const initializeI18n = () => {
             greeting: 'أهلاً {{username}}!',
             cart: "السلة",
             users:"المستخدمين",
+            Users:"المستخدمين",
             products:"المنتجات",
             carts:"السلات",
             orders:"الطلبات",
-            admindashboard:"لوحة التحكم"
-
+            admindashboard:"لوحة التحكم",
+            SearchbyIDorName:"ابحث بالإسم او الرقم التعريفي",
+            Next:"التالي",
+            Previous:"السابق",
+            Edit:"تعديل",
+            Delete:"حذف",
+            Page:"صفحة",
+            of:"من",
+            Submit:"تم",
+            Cancel:"الغاء",
+            true:"نعم",
+            false:"لا",
+            emailconfirmed:"حساب مؤكد",
+            ID:"رقم تعريفي",
+            Email:"البريد",
+            role:"مركز",
+            Nousersfound:"لا يوجد مستخدمون",
+            AddUser:"أضف مستخدم",
+            Admins:"مديرين",
+            emailNotconfirmed:"حساب مش مؤكد",
+            AllCategories:"كل التصنيفات",
+            SortBy:"ترتيب حسب",
+            InStock:"متوفر",
+            OutOfStock:"غير متوفر",
+            Itemaddedtocart:"تم وضعه في السلة",
+            Quantity:"الكمية",
+            Price:"السعر",
+            Category:"التصنيف",
+            Outofstock:"نفذت الكمية",
+            Addtocart:"ضعه في السلة",
+            Name:"أبجدي",
+            Role:"منصب",
+            Total:"المجموع",
+            Checkout:"الدفع",
+            EnterAdress:"ادخل العنوان",
+            EnterPhone:"ادخل رقم هاتف",
           }
         },
         en: {
@@ -47,8 +83,35 @@ const initializeI18n = () => {
             products:"products",
             carts:"carts",
             orders:"orders",
-            admindashboard:"Admin Dashboard"
-
+            admindashboard:"Admin Dashboard",
+            SearchbyIDorName:"search by name or ID",
+            Next:"Next",
+            Previous:"Previous",
+            Edit:"Edit",
+            Delete:"Delete",
+            Page:"Page",
+            of:"of",
+            Submit:"Submit",
+            Cancel:"Cancel",
+            true:"yes",
+            false:"nope",
+            emailconfirmed:"Email confirmed",
+            ID:"ID",
+            Email:"Email",
+            role:"Role",
+            Nousersfound:"No users found",
+            AddUser:"Add User",
+            emailNotconfirmed:"Email not confirmed",
+            AllCategories:"All categories",
+            SortBy:"Sort by",
+            InStock:"In stock",
+            OutOfStock:"Out of stock",
+            Itemaddedtocart:"Added to cart",
+            Outofstock:"out of stock",
+            Addtocart:"Add to cart",
+            EnterAdress:"Enter Adress",
+            EnterPhone:"Enter Phone Number"
+            
           }
         }
       }
