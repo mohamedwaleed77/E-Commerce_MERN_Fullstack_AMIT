@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import ConfigButton from './adminComponents/configButton'
 import i18n, { initializeI18n } from '../../../lib/lang'

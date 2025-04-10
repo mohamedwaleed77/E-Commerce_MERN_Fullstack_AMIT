@@ -16,9 +16,9 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 - Profile view and update for authenticated users.
 
 ### 🛒 Product Catalog
-- Browse products with images, descriptions, prices, and ratings.
-- Filter products by category, price, and rating.
-- Detailed product pages with stock availability and user reviews.
+- Browse products with images,descriptions, prices.
+- Filter products by category, and price.
+- Stock availability and user reviews.
 - Pagination for improved navigation.
 
 ### 🧺 Shopping Cart
@@ -29,7 +29,7 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 ### 📦 Order Management
 - Checkout process with shipping information and payment method selection.
 - Order summary showing products, quantities, and total price.
-- Payment integration (interface only) with Stripe or PayPal.
+- Payment integration (interface only) with Stripe .
 - Logged-in users can view their past orders.
 
 ### 🛠️ Admin Dashboard

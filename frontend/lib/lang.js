@@ -1,7 +1,6 @@
 import i18n from 'i18next';
-import { useDispatch,useSelector } from 'react-redux'
-import { ar,en } from '../features/languageSlice/languageSlice';
-// Client-side only function to set document direction and lang attribute
+import { initReactI18next } from 'react-i18next'; // ✅ Add this
+ 
 export const setDocumentDirection = (lng) => {
   // Only run in browser environment
   if (typeof document !== 'undefined') {
@@ -20,8 +19,10 @@ export const setDocumentDirection = (lng) => {
 };
 
 // Initialize i18n
+ 
 const initializeI18n = () => {
   return i18n
+    .use(initReactI18next)
     .init({
       lng: 'en', // Default to English
       fallbackLng: 'en',

@@ -18,7 +18,6 @@ export default function Navbar() {
   
   // Check if the user is logged in on component mount
   useEffect(() => {
-    initializeI18n();
     const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const storedUsername = localStorage.getItem('username');
     
