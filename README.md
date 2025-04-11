@@ -3,7 +3,7 @@
 This is a full-featured eCommerce platform built with the **MERN stack** (MongoDB, Express.js, React, Node.js). The app allows users to browse and purchase products, while admins can manage the catalog, view orders, and handle user accounts.
 
 ---
-## 🚀 Watch this video:
+## ▶ Watch this video:
 [![Watch the video](https://img.youtube.com/vi/DVaYH5_xxjQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=DVaYH5_xxjQ)
 
 ## 🚀 Features
