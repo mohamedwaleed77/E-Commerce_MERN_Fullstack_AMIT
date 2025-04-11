@@ -94,7 +94,14 @@ export default function Page() {
     setFilteredProducts(filtered);
     setPage(1);
   }, [searchQuery, products, selectedCategory, filterInStock, filterOutOfStock, sortOption]);
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const role = localStorage.getItem('role');
+      if (role === 'admin') {
+        setIsAdmin(true);
+      }
+    }
+  }, []);
   const currentPageProducts = filteredProducts.slice((page - 1) * pageSize, page * pageSize);
   const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
@@ -154,7 +161,7 @@ export default function Page() {
 
   return (
     <div className='flex flex-col items-center justify-center bg-blue-400 h-full'>
-      {localStorage.getItem('role')=="admin"?<Admindashbord/>:<></>}
+      {isAdmin && <Admindashbord />}
  
       <div className="flex flex-col items-center mt-10 w-full ">
         <input

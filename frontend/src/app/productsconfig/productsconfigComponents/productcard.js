@@ -238,7 +238,7 @@ export default function Productcard(props) {
           <div className="mt-4 flex gap-2 flex-wrap">
             <button
               onClick={handleDelete}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 cursor-pointer"
             >
               {i18n.t("Delete")}
             </button>
@@ -247,13 +247,13 @@ export default function Productcard(props) {
               <>
                 <button
                   onClick={handleSubmit}
-                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 cursor-pointer"
                 >
                   {i18n.t("Save")}
                 </button>
                 <button
                   onClick={handleCancel}
-                  className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500"
+                  className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500 cursor-pointer"
                 >
                   {i18n.t("Cancel")}
                 </button>
@@ -261,7 +261,7 @@ export default function Productcard(props) {
             ) : (
               <button
                 onClick={handleEditClick}
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 cursor-pointer"
               >
                 {i18n.t("Edit")}
               </button>

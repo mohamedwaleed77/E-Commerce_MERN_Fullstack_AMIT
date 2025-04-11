@@ -18,7 +18,8 @@ const orderSchema=new Schema({
     completed:{
         type:Boolean,
         default:false,
-    }
+    },
+    products:Array
 
 },{
  timestamps:{

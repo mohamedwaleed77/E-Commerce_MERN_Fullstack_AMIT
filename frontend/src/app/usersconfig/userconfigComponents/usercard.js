@@ -149,7 +149,7 @@ export default function Usercard(props) {
           </tbody>
         </table>
 
-        <div className='mt-4 flex gap-4 flex-wrap'>
+        <div className='mt-4 flex gap-4 flex-wrap '>
           <button
             onClick={handleDelete}
             className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 cursor-pointer'

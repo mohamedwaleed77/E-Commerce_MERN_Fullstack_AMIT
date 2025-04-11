@@ -10,10 +10,8 @@ const Productcard = lazy(() => import('./productsconfigComponents/productcard'))
 import Notfound from '../not-found';
 
 export default function Page() {
-  
-  if (localStorage.getItem('role')!="admin"){
-    return(<Notfound></Notfound>)
-  }
+  const [isAdmin,setIsAdmin]=useState(false)
+ 
   const t = useTranslation();
   const toggleLanguage = useSelector((state) => state.toggle.value);
   const [products, setProducts] = useState([]);
@@ -68,6 +66,7 @@ export default function Page() {
   };
 
   useEffect(() => {
+
     let filtered = products.filter(product => {
       const nameMatches = product.name?.toLowerCase().includes(searchQuery.toLowerCase());
       const idMatches = product._id?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -153,8 +152,14 @@ export default function Page() {
   useEffect(() => {
     fetchProducts();
   }, []);
-
+  useEffect(()=>{    
+    if (localStorage.getItem("role")!="admin"){
+    setIsAdmin(false)
+  }else{setIsAdmin(true)}
+  },[])
   return (
+    <div>
+    {isAdmin?
     <div className='flex flex-col items-center justify-center bg-blue-400 h-full'>
       <div className="flex items-center justify-center">
         <button
@@ -283,6 +288,7 @@ export default function Page() {
           </div>
         </div>
       </div>
+    </div>:<Notfound></Notfound>}
     </div>
   );
 }

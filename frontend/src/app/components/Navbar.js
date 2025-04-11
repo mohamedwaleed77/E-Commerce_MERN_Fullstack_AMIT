@@ -46,7 +46,7 @@ export default function Navbar() {
 
 
   return (
-    <div className='top-0 lw-screen shadow-sm direction-ltr big:sticky'>
+    <div className='top-0 lw-screen shadow-sm direction-ltr big:sticky z-10'>
     <div className='w-full bg-slate-200 text-slate-500 gap-2 h-40 big:h-12 text-1xl big:text-md  flex items-center flex-col big:flex-row justify-between text-center overflow-hidden'>
       <Link href={"/"} className='flex items-center justify-center h-12 w-45 text-2xl   px-2 hover:border-b-2 border-red-400'>E-commerce</Link>
  
@@ -63,6 +63,11 @@ export default function Navbar() {
           className='w-20 h-12 flex justify-center items-center   text-white cursor-pointer hover:border-b-2 border-red-400 overflow-hidden '>
           <img src='lang.png' className='w-8'/>
         </button>
+        <Link
+          href={"/orders"}
+          className='w-20 h-12 flex justify-center items-center   text-white cursor-pointer hover:border-b-2 border-red-400 overflow-hidden '>
+          <img src='history.png' className='w-8'/>
+        </Link>
         {isLoggedIn && (
         <button
           onClick={handleLogout} 

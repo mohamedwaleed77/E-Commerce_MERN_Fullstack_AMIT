@@ -1,130 +1,116 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../../lib/lang';
-import { useSelector } from 'react-redux';
 import Checkout from './checkout';
+import { useSelector } from 'react-redux';
 
 export default function Cart() {
-  const t=useTranslation
-  const [cartItems, setCartItems] = useState([]);
-  const [msg, setMsg] = useState('');
-  const [totalPrice, setTotalPrice] = useState(0);
-  const intervals = useRef({});
   const toggleLanguage = useSelector((state) => state.toggle.value);
-  const fetchCart = () => {
-    fetch('http://localhost:3001/', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'token': Cookies.get('token'),
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
- 
+  const { t } = useTranslation();
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const token = Cookies.get('token');
 
-        if (res.cart?.items) {
-          setCartItems(res.cart.items);
-          const total = res.cart.items.reduce((acc, item) => acc + item.price, 0);
-          setTotalPrice(total);
-        } else {
- 
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching cart:", err);
- 
+  const fetchCart = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/', {
+        method: 'GET',
+        headers: {
+          'token': token,
+          'Content-Type': 'application/json',
+        },
       });
+      const data = await res.json();
+      if (data.cart)
+      setCartItems(data.cart.items || []);
+    } catch (error) {
+      console.error('Failed to fetch cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateQuantity = async (productId, method) => {
+    try {
+      // Optimistically remove from UI if deleting with quantity === 1
+      if (method === 'DELETE') {
+        const item = cartItems.find(item => item.product._id === productId);
+        if (item && item.quantity === 1) {
+          setCartItems(prev => prev.filter(i => i.product._id !== productId));
+        }
+      }
+  
+      await fetch(`http://localhost:3001/${productId}`, {
+        method,
+        headers: {
+          'token': token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId }),
+      });
+  
+      await fetchCart(); // still refresh to sync with backend
+    } catch (error) {
+      console.error(`${method} request failed for product ${productId}:`, error);
+    }
   };
 
   useEffect(() => {
     fetchCart();
   }, []);
 
-  const updateQuantity = (productId, type) => {
-    const method = type === 'increase' ? 'POST' : 'DELETE';
+  const getTotal = () =>
+    cartItems.reduce((sum, item) => sum + item.price, 0);
 
-    fetch(`http://localhost:3001/${productId}`, {
-      method,
-      headers: {
-        'token': Cookies.get('token'),
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.err||res.error) alert(res.err||res.error)
-        fetchCart();
-      })
-  };
-
-  const handleMouseDown = (productId, type) => {
-    updateQuantity(productId, type);
-    const intervalId = setInterval(() => {
-      updateQuantity(productId, type);
-    }, 100);
-    intervals.current[productId + type] = intervalId;
-  };
-
-  const handleMouseUp = (productId, type) => {
-    clearInterval(intervals.current[productId + type]);
-  };
+  if (loading) return <div className="text-center mt-10">Loading cart...</div>;
 
   return (
-    <div className='text-center'>
-       <Checkout></Checkout>
-    <div className="flex flex-col items-center gap-2">
-            {cartItems.length > 0 && (
-        <div className="text-2xl font-bold mt-4">{i18n.t("Total")}: {totalPrice} EGP</div>
-      )}
-      {msg && (
-        <div className="text-xl text-red-500 flex flex-col items-center">
-          <img src="empty_cart.png" alt="Empty Cart" />
-          <p>{msg}</p>
+    <div className='flex flex-col items-center'>
+      <Checkout/>
+    <div className="text-center flex flex-col content-center gap-10 p-6 w-1/2">
+      <h1 className="text-2xl font-bold">{t('YourCart')}</h1>
+
+      {cartItems.length === 0 ? (
+        <div className='flex flex-col justify-center items-center gap-5'>
+        <p>{t('empty_cart')}</p>
+        <img src='empty_cart.png' className='w-40'></img>
         </div>
+      ) : (
+        <>
+          {cartItems.map((item) => (
+            <div key={item.product._id} className="flex flex-col items-center border p-4 rounded shadow gap-2">
+              <img
+                src={`http://localhost:3003/uploads/${item.product._id}`}
+                alt={item.product.name}
+                className="w-32 h-32 object-cover"
+              />
+              <h2 className="text-lg font-semibold">{item.product.name}</h2>
+              <p>{t('Quantity')}: {item.quantity}</p>
+              <div className="flex gap-4">
+                <button
+                  className="bg-green-500 text-white px-3 py-1 rounded"
+                  onClick={() => updateQuantity(item.product._id, 'POST')}
+                >
+                  +
+                </button>
+                <button
+                  className="bg-red-500 text-white px-3 py-1 rounded"
+                  onClick={() => updateQuantity(item.product._id, 'DELETE')}
+                >
+                  -
+                </button>
+              </div>
+              <p className="text-gray-700">{t('Price')}: ${item.price.toFixed(2)}</p>
+            </div>
+          ))}
+
+          <div className="mt-6 text-xl font-bold">
+            {t('Total')}: ${getTotal().toFixed(2)}
+          </div>
+        </>
       )}
-
-      {cartItems.map((item) => (
-        <div
-          key={item._id}
-          className="flex items-center gap-5 border p-4 rounded-xl shadow-md w-full max-w-xl"
-        >
-          <img
-            src={`http://localhost:3003/uploads/${item.product._id}`}
-            alt={item.product.name}
-            className="w-24 h-24 object-cover rounded"
-          />
-          <div className="flex-1">
-            <h2 className="text-xl font-semibold">{item.product.name}</h2>
-            <p>{i18n.t("Price")}: {item.price} EGP</p>
-            <p>{i18n.t("Quantity")}: {item.quantity}</p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <button
-              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
-              onMouseDown={() => handleMouseDown(item.product._id, 'increase')}
-              onMouseUp={() => handleMouseUp(item.product._id, 'increase')}
-              onMouseLeave={() => handleMouseUp(item.product._id, 'increase')}
-            >
-              +
-            </button>
-            <button
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-              onMouseDown={() => handleMouseDown(item.product._id, 'decrease')}
-              onMouseUp={() => handleMouseUp(item.product._id, 'decrease')}
-              onMouseLeave={() => handleMouseUp(item.product._id, 'decrease')}
-            >
-              -
-            </button>
-          </div>
-        </div>
-      ))}
-
-
     </div>
     </div>
   );

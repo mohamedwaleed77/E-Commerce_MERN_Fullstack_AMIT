@@ -8,9 +8,12 @@ import Notfound from '../not-found';
 const Usercard =lazy(()=>import('./userconfigComponents/usercard'));
 
 export default function Page() {
-    if (localStorage.getItem('role')!="admin"){
-      return(<Notfound></Notfound>)
-    }
+  const [isAdmin,setIsAdmin]=useState(false)
+   useEffect(()=>{    
+     if (localStorage.getItem("role")!="admin"){
+     setIsAdmin(false)
+   }else{setIsAdmin(true)}
+   },[])
   const t = useTranslation();
   const toggleLanguage = useSelector((state) => state.toggle.value);
   const [users, setUsers] = useState([]);
@@ -124,6 +127,8 @@ export default function Page() {
   }, []);
 
   return (
+
+    <div>{isAdmin?
     <div className='flex flex-col items-center justify-center bg-red-400 h-full'>
       <div className="flex items-center justify-center">
         <button
@@ -208,6 +213,8 @@ export default function Page() {
         </div>
       </div>
       </div>
+    </div>
+      :<Notfound></Notfound>}
     </div>
   );
 }

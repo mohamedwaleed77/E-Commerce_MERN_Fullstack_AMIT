@@ -51,7 +51,15 @@ services:
     networks:
       - monitor_network
     restart: always
-
+  FrontEndService:
+    build: ./frontend
+    container_name: fronend-service
+    image: fronend-service
+    ports:
+      - "3005:3005"
+    networks:
+      - monitor_network
+    restart: always
   # MongoDB Service
   mongodb:
     image: mongo:latest

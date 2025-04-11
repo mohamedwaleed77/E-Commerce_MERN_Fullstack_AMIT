@@ -17,7 +17,6 @@ export default function LoginForm() {
   const [isRegistering, setIsRegistering] = useState(false); // New state
 
   useEffect(() => {
-    
     const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const storedUsername = localStorage.getItem('username');
     if (storedIsLoggedIn && storedUsername) {
@@ -29,10 +28,6 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!Cookies.get("token")) {
-      localStorage.setItem("isLoggedIn", false);
-      window.location.reload();
-    }
 
     const endpoint = isRegistering ? 'http://localhost:3004/signup' : 'http://localhost:3004/signin';
     const payload = isRegistering 
@@ -80,6 +75,11 @@ export default function LoginForm() {
       console.error('Error:', error);
       setErrorMessage('Network error, please try again later.');
     }
+    if (!Cookies.get("token")) {
+      localStorage.setItem("isLoggedIn", false);
+      window.location.reload();
+    }
+
   };
 
   if (loading) {

@@ -73,6 +73,15 @@ const initializeI18n = () => {
             Checkout:"الدفع",
             EnterAdress:"ادخل العنوان",
             EnterPhone:"ادخل رقم هاتف",
+            empty_cart:"السلة فارغة",
+            YourCart:"سلتك",
+            Products:"المنتجات",
+            createdat:"تاريخ الطلب",
+            Status:"الحالة",
+            Phone:"الهاتف",
+            Adress:"العنوان",
+            newest:"الأحدث",
+            oldest:"الأقدم"
           }
         },
         en: {
@@ -110,7 +119,10 @@ const initializeI18n = () => {
             Outofstock:"out of stock",
             Addtocart:"Add to cart",
             EnterAdress:"Enter Adress",
-            EnterPhone:"Enter Phone Number"
+            EnterPhone:"Enter Phone Number",
+            empty_cart:"Empty Cart",
+            createdat:"Created at",
+            Status:"Status"
             
           }
         }
