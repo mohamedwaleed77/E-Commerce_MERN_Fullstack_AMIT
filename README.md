@@ -54,4 +54,5 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 - If a service failed it will be restarted.
  
 ### 📊 Monitoring metrics Using Promethues | Grafana | cAdvisor
+![alt text](backend/metrics2.png)
 ![alt text](backend/metrics.png)
