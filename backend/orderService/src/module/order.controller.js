@@ -43,7 +43,7 @@ export const createOrder=erroHandler(async(req,res)=>{
           
         ],
         mode: 'payment',
-        success_url:`http://localhost:${port}/success`,
+        success_url:`http://localhost:${port}/success/${token}`,
         cancel_url:`http://localhost:${port}/cancel`,
         customer_email:user.user.email,
         client_reference_id:cart._id.toString(),
@@ -57,7 +57,7 @@ export const createOrder=erroHandler(async(req,res)=>{
 })
 
 export const success= erroHandler(async (req,res)=>{
-  let {token}=req.headers
+  let {token}=req.params
   let user=jwt.verify(token,secret_key)
   let cart=await cartModel.find({owner:user.user._id})
   cart=cart[0]
@@ -65,8 +65,8 @@ export const success= erroHandler(async (req,res)=>{
   await cart.save()
   res.redirect('http://localhost:3005/');
   return res.json({msg:"payment is done| تمت العملية"})
-    
 })
+
 export const cancel= erroHandler(async (req,res)=>{
   res.redirect('http://localhost:3005/');
   return res.status(400).json({msg:"payment failed| فشلت العملية"})

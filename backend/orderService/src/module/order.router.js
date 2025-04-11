@@ -11,6 +11,6 @@ import { orderValidation } from "./order.validation.js";
 const orderRouter=Router();
 orderRouter.get("/",isTokenExpired,isEmailConfirmed,pastOrders)
 orderRouter.post("/",isTokenExpired,isEmailConfirmed,validateCredintials(orderValidation),createOrder)
-orderRouter.post("/success",success)
+orderRouter.get("/success/:token",success)
 orderRouter.get("/cancel",cancel)
 export default orderRouter;

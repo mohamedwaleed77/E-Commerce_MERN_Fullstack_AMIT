@@ -15,7 +15,7 @@ export default function Page() {
       const res = await fetch("http://localhost:3002", {
         method: "GET",
         headers: {
-          token: Cookies.get("token") || "",
+          token: Cookies.get("token")
         },
       })
       const data = await res.json()

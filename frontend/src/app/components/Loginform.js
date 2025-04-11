@@ -57,13 +57,15 @@ export default function LoginForm() {
           }, 1500);
           return;
         }
+        else{
         Cookies.set("token", data.token, { expires: 1 });
 
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('username', data.name || name);
         localStorage.setItem('role', data.role || 'user');
-
+        }
         setShowWelcomeMessage(true);
+        if (data.token)
         setTimeout(() => {
           setShowWelcomeMessage(false);
           window.location.reload();
@@ -75,7 +77,7 @@ export default function LoginForm() {
       console.error('Error:', error);
       setErrorMessage('Network error, please try again later.');
     }
-    if (!Cookies.get("token")) {
+    if (!Cookies.get("token") && localStorage.getItem("isLoggedIn")) {
       localStorage.setItem("isLoggedIn", false);
       window.location.reload();
     }

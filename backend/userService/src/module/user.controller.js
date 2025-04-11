@@ -50,7 +50,7 @@ export const verifyEmail=erroHandler(async(req,res)=>{
         if(err)return res.status(500).json({msg:"invalid token",token })
         let user= await userModel.findOneAndUpdate({email:decoded.reciever},{emailConfirmed:true},{new:true})
         
-        
+        res.redirect('http://localhost:3005/');
         return res.json({msg:"email confirmed"})
      })
 })
