@@ -43,8 +43,7 @@ This is a full-featured eCommerce platform built with the **MERN stack** (MongoD
 - Manage user accounts (e.g., delete users).
 
 ### 📱 Responsive Design
-- Mobile-friendly interface using Bootstrap or Material-UI.
-- Optimized layout across desktops, tablets, and smartphones.
+- Mobile-friendly interface using Tailwind
 
 ### 🔐 Security and Best Practices
 - Secure JWT authentication.
