@@ -38,9 +38,11 @@ export const login=erroHandler(async(req,res)=>{
     if (!user || !bcrypt.compareSync(password,user.password)){
         return res.status(500).json({msg:"wrong credintials"})
     }
-    
+    if (user.emailConfirmed){
     let token=jwt.sign({user},secret_key)
-    return res.json({msg:"login success!",name:user.name,token,role:user.role})
+    return res.json({msg:"login success!",name:user.name,token,role:user.role,emailConfirmed:user.emailConfirmed})
+    }
+    return res.status(400).json({msg:"confirm email first"})
 })
 
 export const verifyEmail=erroHandler(async(req,res)=>{

@@ -60,10 +60,13 @@ export default function LoginForm() {
         }
         else{
         Cookies.set("token", data.token, { expires: 1 });
-
+        if (data.emailConfirmed==true){
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('username', data.name || name);
-        localStorage.setItem('role', data.role || 'user');
+        localStorage.setItem('role', data.role || 'user');}
+        else{
+          setErrorMessage('Confirm Email first');
+        }
         }
         setShowWelcomeMessage(true);
         if (data.token)
