@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../lib/lang';
 import { useSelector } from 'react-redux';
+import { ip_adress } from '../layout';
 
 export default function Productcard(props) {
   const toggleLanguage = useSelector((state) => state.toggle.value);
@@ -16,7 +17,7 @@ export default function Productcard(props) {
   const handleAddToCart = async () => {
     if (currentQuantity > 0) {
       try {
-        const res = await fetch(`http://localhost:3001/${_id}`, {
+        const res = await fetch(`http://${ip_adress}:3001/${_id}`, {
           method: 'POST',
           headers: {
             token: Cookies.get('token'),
@@ -48,7 +49,7 @@ export default function Productcard(props) {
         {/* Product Image */}
         <div className="w-32 h-32 relative">
           <img
-            src={`http://localhost:3003/uploads/${_id}?v=${imageVersion}`}
+            src={`http://${ip_adress}:3003/uploads/${_id}?v=${imageVersion}`}
             alt={name}
             className="w-full h-full object-contain border rounded"
             onError={(e) => {

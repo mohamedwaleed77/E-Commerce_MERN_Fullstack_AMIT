@@ -2,22 +2,6 @@ import Checkout from '@/app/cart/checkout';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next'; // ✅ Add this
  
-export const setDocumentDirection = (lng) => {
-  // Only run in browser environment
-  if (typeof document !== 'undefined') {
-    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = lng;
-
-    // Optional: Add CSS class for RTL-specific styling
-    if (lng === 'ar') {
-      document.body.classList.add('rtl');
-      document.body.classList.remove('ltr');
-    } else {
-      document.body.classList.add('ltr');
-      document.body.classList.remove('rtl');
-    }
-  }
-};
 
 // Initialize i18n
  
@@ -135,7 +119,22 @@ const initializeI18n = () => {
     });
 };
 
-// Listen for language changes
+export const setDocumentDirection = (lng) => {
+  // Only run in browser environment
+  if (typeof document !== 'undefined') {
+    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lng;
+
+    // Optional: Add CSS class for RTL-specific styling
+    if (lng === 'ar') {
+      document.body.classList.add('rtl');
+      document.body.classList.remove('ltr');
+    } else {
+      document.body.classList.add('ltr');
+      document.body.classList.remove('rtl');
+    }
+  }
+};
 
 
 // Export both the i18n instance and initialization function

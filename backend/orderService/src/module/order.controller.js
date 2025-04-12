@@ -1,5 +1,5 @@
 import { cartModel } from "../../database/cart.model.js";
-import { host, port, secret_key, stripe_key } from "../../index.js";
+import { host, hostIP, port, secret_key, stripe_key } from "../../index.js";
 import { erroHandler } from "../middlewares/errorHandler.js";
 import Stripe from "stripe";
 import jwt from "jsonwebtoken"
@@ -43,8 +43,8 @@ export const createOrder=erroHandler(async(req,res)=>{
           
         ],
         mode: 'payment',
-        success_url:`http://localhost:${port}/success/${token}`,
-        cancel_url:`http://localhost:${port}/cancel`,
+        success_url:`http://${hostIP}:${port}/success/${token}`,
+        cancel_url:`http://${hostIP}:${port}/cancel`,
         customer_email:user.user.email,
         client_reference_id:cart._id.toString(),
         metadata:{address:req.body.address}
@@ -63,11 +63,9 @@ export const success= erroHandler(async (req,res)=>{
   cart=cart[0]
   cart.items=[]
   await cart.save()
-  res.redirect('http://localhost:3005/');
-  return res.json({msg:"payment is done| تمت العملية"})
+  res.redirect(`http://${hostIP}:3005/`);
 })
 
 export const cancel= erroHandler(async (req,res)=>{
-  res.redirect('http://localhost:3005/');
-  return res.status(400).json({msg:"payment failed| فشلت العملية"})
+  res.redirect(`http://${hostIP}:3005/`);
 })

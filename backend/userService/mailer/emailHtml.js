@@ -1,4 +1,5 @@
-import { host, port } from "../index.js"
+
+import { hostIP, port } from "../index.js"
 
 export const emailHtml=(token)=>{
  return `<table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8" 
@@ -36,7 +37,7 @@ export const emailHtml=(token)=>{
                                           
                                          
                                      </p>
-                                     <a target="_blank" href="http://localhost:${port}/verify/${token}" 
+                                     <a target="_blank" href="http://${hostIP}:${port}/verify/${token}" 
                                          style="background:#20e277; text-decoration:none; display:inline-block; font-weight:500; 
                                          margin-top:24px; color:#fff; text-transform:uppercase; font-size:14px; padding:12px 30px;
                                          border-radius:30px;">

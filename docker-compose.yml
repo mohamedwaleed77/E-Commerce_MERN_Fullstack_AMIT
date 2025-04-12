@@ -8,11 +8,14 @@ services:
     image: user-service
     env_file:
       - ./backend/.env
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
     ports:
       - "3004:3004"
     networks:
       - monitor_network
     restart: always
+
   # Product Service
   productService:
     build: ./backend/productService
@@ -20,6 +23,8 @@ services:
     image: product-service
     env_file:
       - ./backend/.env
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
     ports:
       - "3003:3003"
     networks:
@@ -27,6 +32,7 @@ services:
     volumes:
       - ./backend/uploads:/usr/src/app/uploads
     restart: always
+
   # Order Service
   orderService:
     build: ./backend/orderService
@@ -34,11 +40,14 @@ services:
     image: order-service
     env_file:
       - ./backend/.env
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
     ports:
       - "3002:3002"
     networks:
       - monitor_network
     restart: always
+
   # Cart Service
   CartService:
     build: ./backend/cartService
@@ -46,20 +55,32 @@ services:
     image: cart-service
     env_file:
       - ./backend/.env
+    environment:
+      - IP_ADDRESS=${IP_ADDRESS}
     ports:
       - "3001:3001"
     networks:
       - monitor_network
     restart: always
+
+  # Frontend Service
   FrontEndService:
-    build: ./frontend
-    container_name: fronend-service
-    image: fronend-service
+    build:
+      context: ./frontend
+      args:
+        - NEXT_PUBLIC_IP_ADDRESS=${IP_ADDRESS}
+    env_file:
+      - ./backend/.env
+    environment:
+      - NEXT_PUBLIC_IP_ADDRESS=${IP_ADDRESS}
+    container_name: frontend-service  # Fixed typo
+    image: frontend-service  # Fixed typo
     ports:
       - "3005:3005"
     networks:
       - monitor_network
     restart: always
+
   # MongoDB Service
   mongodb:
     image: mongo:latest
@@ -71,6 +92,7 @@ services:
     ports:
       - "27017:27017"
     restart: always
+
   # Prometheus Service
   prometheus:
     image: prom/prometheus:latest
@@ -81,6 +103,7 @@ services:
     networks:
       - monitor_network
     restart: always
+
   # Grafana Service
   grafana:
     image: grafana/grafana:latest
@@ -93,6 +116,7 @@ services:
     depends_on:
       - prometheus
     restart: always
+
   # cAdvisor Service
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest

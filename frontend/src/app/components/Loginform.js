@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
+import { ip_adress } from '../layout';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -29,7 +30,7 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const endpoint = isRegistering ? 'http://localhost:3004/signup' : 'http://localhost:3004/signin';
+    const endpoint = isRegistering ? `http://${ip_adress}:3004/signup` : `http://${ip_adress}:3004/signin`;
     const payload = isRegistering 
       ? { name, email, password } 
       : { email, password };

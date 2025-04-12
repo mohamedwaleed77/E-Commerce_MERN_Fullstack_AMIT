@@ -1,7 +1,9 @@
+'use client'
 import React, { useState } from 'react'
 import Cookies from 'js-cookie'
 import { useTranslation } from 'react-i18next'
 import i18n from '../../../../lib/lang'
+import { ip_adress } from '../../layout'
 
 export default function Usercard(props) {
   const { _id, name, email, emailConfirmed, role } = props.user
@@ -16,7 +18,7 @@ export default function Usercard(props) {
     if (!window.confirm(`Are you sure you want to delete user: ${currentUser.name}?`)) return
 
     try {
-      const res = await fetch(`http://localhost:3004/${_id}`, {
+      const res = await fetch(`http://${ip_adress}:3004/${_id}`, {
         method: 'DELETE',
         headers: {
           token: Cookies.get('token'),
@@ -45,7 +47,7 @@ export default function Usercard(props) {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch(`http://localhost:3004/${_id}`, {
+      const res = await fetch(`http://${ip_adress}:3004/${_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

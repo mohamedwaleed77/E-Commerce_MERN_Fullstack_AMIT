@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import i18n from '../../../lib/lang';
 import Cookies from 'js-cookie';
 import Notfound from '../not-found';
+import { ip_adress } from '../layout';
 const Usercard =lazy(()=>import('./userconfigComponents/usercard'));
 
 export default function Page() {
@@ -41,7 +42,7 @@ export default function Page() {
 
     try {
       while (true) {
-        const res = await fetch(`http://localhost:3004/?page=${currentPage}`, {
+        const res = await fetch(`http://${ip_adress}:3004/?page=${currentPage}`, {
           method: 'GET',
           headers: {
             token: Cookies.get('token'),
@@ -92,7 +93,7 @@ export default function Page() {
 
   const handleAddUser = async (name, email, password) => {
     try {
-      const res = await fetch('http://localhost:3004/signup', {
+      const res = await fetch(`http://${ip_adress}:3004/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

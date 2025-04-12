@@ -5,7 +5,7 @@ import userRouter from "./src/module/user.router.js";
 import cors from 'cors'
 
 
- 
+export const hostIP=(process.env.IP_ADDRESS)
 export const host=(process.env.DATA_BASE_HOST)
 export const port=(process.env.PORT_USER)
 export const secret_key=(process.env.SECRET_KEY)

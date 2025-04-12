@@ -1,8 +1,10 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import i18n from '../../../lib/lang'
 import Cookies from 'js-cookie'
+import { ip_adress } from '../layout'
 
 export default function Checkout() {
   const t=useTranslation
@@ -16,7 +18,7 @@ export default function Checkout() {
  const checkoutHandler=async ()=>{
     const data = { address: address, phoneNo: phone };
     console.log('Sending data:', data); // Log the data to ensure it is formatted properly
-    await fetch('http://localhost:3002', {
+    await fetch(`http://${ip_adress}:3002`, {
         method: "POST",
         body: JSON.stringify(data),
         headers: { 

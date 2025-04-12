@@ -1,7 +1,7 @@
 import { userModel } from "../../database/user.model.js"
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken';
-import { mail_mail, mail_pass, secret_key } from "../../index.js"
+import { hostIP, mail_mail, mail_pass, secret_key } from "../../index.js"
 import { sendConfirmEmail } from "../../mailer/send_mail.js";
 import { erroHandler } from "../middlewares/errorHandler.js";
 
@@ -50,7 +50,7 @@ export const verifyEmail=erroHandler(async(req,res)=>{
         if(err)return res.status(500).json({msg:"invalid token",token })
         let user= await userModel.findOneAndUpdate({email:decoded.reciever},{emailConfirmed:true},{new:true})
         
-        res.redirect('http://localhost:3005/');
+        res.redirect(`http://${hostIP}:3005/`);
         return res.json({msg:"email confirmed"})
      })
 })

@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 const Productcard = lazy(() => import('./productsconfigComponents/productcard'));
  
 import Notfound from '../not-found';
+import { ip_adress } from '../layout';
 
 export default function Page() {
   const [isAdmin,setIsAdmin]=useState(false)
@@ -43,7 +44,7 @@ export default function Page() {
 
     try {
       while (true) {
-        const res = await fetch(`http://localhost:3003/?page=${currentPage}`, {
+        const res = await fetch(`http://${ip_adress}:3003/?page=${currentPage}`, {
           method: 'GET',
           headers: {
             token: Cookies.get('token'),
@@ -101,7 +102,7 @@ export default function Page() {
 
   const handleAddProduct = async () => {
     try {
-      const productRes = await fetch('http://localhost:3003/', {
+      const productRes = await fetch(`http://${ip_adress}:3003/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ export default function Page() {
         const formData = new FormData();
         formData.append('image', imageFile);
 
-        await fetch(`http://localhost:3003/uploadImage/${productData._id}`, {
+        await fetch(`http://${ip_adress}:3003/uploadImage/${productData._id}`, {
           method: 'POST',
           body: formData,
           headers: {

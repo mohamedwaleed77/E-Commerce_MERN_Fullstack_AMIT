@@ -6,6 +6,7 @@ import orderRouter from "./src/module/order.router.js";
 
  
 export const host=(process.env.DATA_BASE_HOST)
+export const hostIP=(process.env.IP_ADDRESS)
 export const port=(process.env.PORT_ORDER)
 export const secret_key=(process.env.SECRET_KEY)
 export const expiration=(process.env.SESSION_TIME_MINUTES)

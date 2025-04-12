@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import { toggle } from "../../../features/languageSlice/languageSlice"
 import i18n from "../../../lib/lang"
+import { ip_adress } from "../layout"
 export default function Page() {
   const [orders, setOrders] = useState([])
   const [sortAsc, setSortAsc] = useState(true)
@@ -12,7 +13,7 @@ export default function Page() {
   const toggleLanguage=useSelector((state)=>state.toggle.value)
   const fetchOrders = async () => {
     try {
-      const res = await fetch("http://localhost:3002", {
+      const res = await fetch(`http://${ip_adress}:3002`, {
         method: "GET",
         headers: {
           token: Cookies.get("token")
@@ -62,7 +63,7 @@ export default function Page() {
             {order.products.map((productEntry, j) => (
               <div key={productEntry._id} className="border p-2 rounded shadow">
                 <img
-                  src={`http://localhost:3003/uploads/${productEntry._id}`}
+                  src={`http://${ip_adress}:3003/uploads/${productEntry._id}`}
                   alt="Product"
                   className="w-full h-32 object-cover mb-2 rounded"
                 />

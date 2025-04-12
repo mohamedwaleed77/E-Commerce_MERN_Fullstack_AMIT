@@ -1,7 +1,9 @@
+'use client'
 import React, { useState, useRef } from 'react';
 import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../../lib/lang';
+import { ip_adress } from '../../layout';
 
 export default function Productcard(props) {
   const { _id, name, category, price, quantity, image } = props.product;
@@ -29,7 +31,7 @@ export default function Productcard(props) {
     if (!window.confirm(i18n.t('confirm_delete_product', { product: currentProduct.name }))) return;
 
     try {
-      const res = await fetch(`http://localhost:3003/${_id}`, {
+      const res = await fetch(`http://${ip_adress}:3003/${_id}`, {
         method: 'DELETE',
         headers: {
           token: Cookies.get('token'),
@@ -58,7 +60,7 @@ export default function Productcard(props) {
   const handleSubmit = async () => {
     try {
       // Update product details
-      const res = await fetch(`http://localhost:3003/${_id}`, {
+      const res = await fetch(`http://${ip_adress}:3003/${_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +82,7 @@ export default function Productcard(props) {
         const formData = new FormData();
         formData.append('image', newImage);
 
-        const imageRes = await fetch(`http://localhost:3003/uploadImage/${_id}`, {
+        const imageRes = await fetch(`http://${ip_adress}:3003/uploadImage/${_id}`, {
           method: 'POST',
           body: formData,
           headers: {
@@ -129,7 +131,7 @@ export default function Productcard(props) {
         <div className="w-32 h-32 relative">
         <label className="cursor-pointer w-full h-full block">
           <img
-            src={`http://localhost:3003/uploads/${_id}?v=${imageVersion}`}
+            src={`http://${ip_adress}:3003/uploads/${_id}?v=${imageVersion}`}
             alt={name}
             className="w-full h-full object-contain border rounded"
             onError={(e) => {

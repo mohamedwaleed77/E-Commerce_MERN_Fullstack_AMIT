@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { useTranslation } from 'react-i18next';
 import Checkout from './checkout';
 import { useSelector } from 'react-redux';
+import { ip_adress } from '../layout';
 
 export default function Cart() {
   const toggleLanguage = useSelector((state) => state.toggle.value);
@@ -15,7 +16,7 @@ export default function Cart() {
 
   const fetchCart = async () => {
     try {
-      const res = await fetch('http://localhost:3001/', {
+      const res = await fetch(`http://${ip_adress}:3001/`, {
         method: 'GET',
         headers: {
           'token': token,
@@ -42,7 +43,7 @@ export default function Cart() {
         }
       }
   
-      await fetch(`http://localhost:3001/${productId}`, {
+      await fetch(`http://${ip_adress}:3001/${productId}`, {
         method,
         headers: {
           'token': token,
@@ -82,7 +83,7 @@ export default function Cart() {
           {cartItems.map((item) => (
             <div key={item.product._id} className="flex flex-col items-center border p-4 rounded shadow gap-2">
               <img
-                src={`http://localhost:3003/uploads/${item.product._id}`}
+                src={`http://${ip_adress}:3003/uploads/${item.product._id}`}
                 alt={item.product.name}
                 className="w-32 h-32 object-cover"
               />
