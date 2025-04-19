@@ -18,11 +18,21 @@ export default function LoginForm() {
   const [isRegistering, setIsRegistering] = useState(false); // New state
 
   useEffect(() => {
+    const token = Cookies.get('token');
     const storedIsLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     const storedUsername = localStorage.getItem('username');
-    if (storedIsLoggedIn && storedUsername) {
+
+    if (token && storedIsLoggedIn && storedUsername) {
       setIsLoggedIn(true);
       setUsername(storedUsername);
+      setRole(localStorage.getItem('role') || 'user');
+    } else {
+      // Clean up any stale auth data
+      Cookies.remove('token');
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      localStorage.removeItem('role');
+      setIsLoggedIn(false);
     }
     setLoading(false);
   }, []);
@@ -36,6 +46,7 @@ export default function LoginForm() {
       : { email, password };
 
     try {
+      Cookies.remove('token');
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {

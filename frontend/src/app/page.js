@@ -175,7 +175,7 @@ export default function Page() {
 
       </div>
 
-      <div className='flex justify-center flex-col items-center bg-slate-200 w-4/5 rounded-t-4xl '>
+      <div className='flex justify-center flex-col items-center bg-slate-200 w-4/5 rounded-t-4xl h-full '>
       <div className="flex flex-wrap justify-center gap-4 mt-4">
           {/* Category Dropdown */}
           <select
