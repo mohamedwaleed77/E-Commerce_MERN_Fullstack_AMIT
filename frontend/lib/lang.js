@@ -1,15 +1,16 @@
 import Checkout from '@/app/cart/checkout';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next'; // ✅ Add this
- 
+import LanguageDetector from 'i18next-browser-languagedetector';
+
 
 // Initialize i18n
  
 const initializeI18n = () => {
   return i18n
+    .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-      lng: 'en', // Default to English
       fallbackLng: 'en',
       resources: {
         ar: {
