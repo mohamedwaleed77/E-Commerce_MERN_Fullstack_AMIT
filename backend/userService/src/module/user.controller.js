@@ -53,7 +53,6 @@ export const verifyEmail=erroHandler(async(req,res)=>{
         let user= await userModel.findOneAndUpdate({email:decoded.reciever},{emailConfirmed:true},{new:true})
         
         res.redirect(`http://${hostIP}:3005/`);
-        return res.json({msg:"email confirmed"})
      })
 })
 
